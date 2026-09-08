@@ -10,13 +10,13 @@
 
 ## 1. Overview
 
-Automated Sleep Stage Classification (SSSC) is essential for sleep disorder diagnosis and long-term monitoring. This project leverages the **Sleep-EDF** dataset and a minimal **2-channel setup (EEG + submental EMG)** to classify 5 sleep stages: **Wake (W), N1, N2, N3, and REM**.
+Automated Sleep Stage Classification (SSSC) is essential for sleep disorder diagnosis and long-term monitoring. This project leverages the **Sleep-EDF** dataset and a minimal **2-channel setup (EEG + EMG)** to classify 5 sleep stages: **Wake (W), N1, N2, N3, and REM**.
 
 ### Key Objectives
 
 1. **Minimal-Channel Efficiency:** Streamline full Polysomnography (PSG) down to just **2 channels (EEG + EMG)** for compact, wearable, and edge-device integration.
 2. **Sub-linear Hybrid Re-balancing:** Address severe class imbalance (N1/REM scarcity) using a combined **SQRT-Inverse Sampler ($n=0.5$)** and **SQRT-Inverse Weighted Loss (Hard & Soft targets)**.
-3. **Knowledge Distillation (KD):** Transfer "Dark Knowledge" from a high-capacity 1D CNN + Transformer Teacher ($8.66\text{MB}$) to a GroupNorm-based 1D CNN Student ($1.29\text{MB}$), achieving **85% parameter compression** while drastically improving minority class recall.
+3. **Knowledge Distillation (KD):** Transfer "Knowledge from a high-capacity 1D CNN + Transformer Teacher to a GroupNorm-based 1D CNN Student.
 
 ---
 
@@ -28,7 +28,6 @@ Automated Sleep Stage Classification (SSSC) is essential for sleep disorder diag
   * 7-Channel Full PSG Input $\rightarrow$ 1D CNN Feature Extractor $\rightarrow$ Positional Encoding $\rightarrow$ Transformer Encoder (4 Layers, 8 Heads) $\rightarrow$ Unweighted Soft Logits.
 * **Student Model ($1.29\text{MB}$, Trainable):** 
   * 2-Channel Input (EEG + Submental EMG) $\rightarrow$ 1D CNN Extractor $\rightarrow$ **GroupNormalization ($G=2$)** $\rightarrow$ **ELU Activation** $\rightarrow$ Linear Classifier.
-  * *Why GroupNorm & ELU?* Eliminates batch-dependent variance collapse in small batch/imbalanced setups while preserving low-amplitude biosignal waveforms (e.g., N1/REM EEG & EMG Atonia).
 
 ### 2.2. Custom Knowledge Distillation Pipeline
 
@@ -41,6 +40,10 @@ $$\mathcal{L}_{\text{Total}} = \alpha \cdot \mathcal{L}_{\text{Soft}}(\text{KL D
 ---
 
 ## 3. Experimental Results (Trial 07)
+
+<p align="center">
+  <img src="./image/kd_AnalysisPlot.png" width="50%" alt="SleepEDF KD Analysis">
+</p>
 
 ### 3.1. Performance & Model Size Comparison
 
