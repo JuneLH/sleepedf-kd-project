@@ -227,3 +227,6 @@ terminal.ipynb
 sleepEDF_dataset/
 sleepEDF_outputs/
 .pth
+
+./vscode
+./continue
