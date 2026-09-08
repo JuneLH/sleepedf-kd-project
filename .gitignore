@@ -216,3 +216,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Temporary & Expired files
+__expired/
+
+# Notebooks & Local test files
+terminal.ipynb
+
+# Dataset & Large Output Files
+sleepEDF_dataset/
+sleepEDF_outputs/
+.pth
